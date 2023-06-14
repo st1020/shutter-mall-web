@@ -29,6 +29,7 @@ export interface Product {
 export interface Order {
   id: number;
   product: Product;
+  user: User;
   orderStatus: string;
   createDate: string;
 }
