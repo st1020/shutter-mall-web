@@ -45,9 +45,9 @@
     <van-cell-group class="user-group">
       <van-cell
         icon="points"
-        title="我的积分"
+        title="幸运抽奖"
         is-link
-        @click="showToast('我的积分~')"
+        @click="router.push('/lucky')"
       />
       <van-cell
         icon="gold-coin-o"

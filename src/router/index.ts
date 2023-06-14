@@ -99,6 +99,14 @@ const router = createRouter({
         title: "重置密码",
       },
     },
+    {
+      name: "lucky",
+      path: "/lucky",
+      component: () => import("@/views/LuckyView.vue"),
+      meta: {
+        title: "幸运抽奖",
+      },
+    },
   ],
 });
 
