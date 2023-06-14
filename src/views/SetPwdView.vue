@@ -1,6 +1,6 @@
 <template>
   <h1 style="text-align: center; padding-top: 80px">
-    <van-icon name="user-o" /> 登陆
+    <van-icon name="user-o" />重置密码
   </h1>
   <van-form @submit="onSubmit">
     <van-cell-group inset>
@@ -22,49 +22,44 @@
     </van-cell-group>
     <div style="margin: 16px">
       <van-button round block type="primary" native-type="submit">
-        登陆
+        提交
       </van-button>
     </div>
   </van-form>
-  <div style="width: 90%; text-align: right">
-    <router-link to="/register" style="color: gray; text-decoration: underline">
-      注册
-    </router-link>
-    <div style="width: 60%; display: inline-block">
-      <!-- todo -->
-    </div>
-    <router-link
-      to="/user/resetPwd"
-      style="color: gray; text-decoration: underline"
-    >
-      重置密码
-    </router-link>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import type { Result } from "../types";
 import { showToast } from "vant";
-import { RouterLink } from "vue-router";
 import router from "@/router";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+let token: string = route.params.token as string;
+if (token == "") {
+  token = window.localStorage.getItem("token") as string;
+} else {
+  token = atob(token);
+}
+
 const username = ref("");
 const password = ref("");
 const onSubmit = async (values: { name: string; password: string }) => {
-  console.log("submit", values);
-  let r: Result<{ token: string }> = await fetch("/api/user/login", {
+  let r: Result<{ token: string }> = await fetch("/api/user/setPassword", {
     method: "post",
     headers: {
+      Authorization: token,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(values),
   }).then((response) => response.json());
   if (r.code != 0) {
-    showToast("登陆失败：" + r.msg);
+    showToast("失败：" + r.msg);
     return;
   }
-  window.localStorage.setItem("token", r.data.token);
-  showToast("登陆成功！");
-  router.replace("/");
+  showToast("重置密码成功，请重新登录！");
+  router.replace("/login");
 };
 </script>

@@ -64,6 +64,11 @@
     </van-cell-group>
 
     <van-cell-group>
+      <van-cell
+        icon="envelop-o"
+        title="重置密码"
+        @click="router.push('/user/setPassword')"
+      />
       <van-cell icon="user-o" title="退出登陆" @click="logout" />
     </van-cell-group>
   </div>

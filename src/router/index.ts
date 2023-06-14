@@ -83,6 +83,22 @@ const router = createRouter({
         title: "提交订单",
       },
     },
+    {
+      name: "setPassword",
+      path: "/user/setPassword/:token?",
+      component: () => import("@/views/SetPwdView.vue"),
+      meta: {
+        title: "重置密码",
+      },
+    },
+    {
+      name: "resetPwd",
+      path: "/user/resetPwd",
+      component: () => import("@/views/ResetPwdView.vue"),
+      meta: {
+        title: "重置密码",
+      },
+    },
   ],
 });
 
