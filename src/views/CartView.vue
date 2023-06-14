@@ -33,9 +33,10 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { showToast, showConfirmDialog } from "vant";
+import { showToast } from "vant";
 import type { Product } from "@/types";
 import { fetchA } from "@/utils";
+import router from "@/router";
 
 const loadCart = () => {
   goods.value = [];
@@ -57,26 +58,10 @@ const formatPrice = (price: number) => {
 };
 
 const onSubmit = () => {
-  showConfirmDialog({
-    title: "确认下单",
-    message: "真的要下单吗？",
-  })
-    .then(() => {
-      checkedGoods.value.map((productId) => {
-        deleteCart(productId);
-      });
-      fetchA(
-        "/api/order/submitOrders",
-        JSON.stringify(checkedGoods.value)
-      ).then((r) => {
-        if (r != null) {
-          showToast("提交订单成功！");
-        }
-      });
-    })
-    .catch(() => {
-      // on cancel
-    });
+  router.push({
+    name: "submitOrder",
+    params: { ids: checkedGoods.value },
+  });
 };
 
 const submitBarText = computed(() => {

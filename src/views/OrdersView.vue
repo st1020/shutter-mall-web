@@ -29,12 +29,26 @@ import { ref } from "vue";
 import type { Order } from "@/types";
 import { fetchA, formatDate } from "@/utils";
 import router from "@/router";
+import { useRoute } from "vue-router";
 
-fetchA<Order[]>("/api/order/getMyOrders", null).then((orders) => {
-  if (orders != null) {
-    goods.value = orders;
-  }
-});
+const route = useRoute();
+if (route.params.type == "") {
+  fetchA<Order[]>("/api/order/getMyOrders", null).then((orders) => {
+    if (orders != null) {
+      goods.value = orders;
+    }
+  });
+} else {
+  fetchA<Order[]>(
+    "/api/order/getMyOrdersByOrderStates",
+    JSON.stringify(route.params.type)
+  ).then((orders) => {
+    if (orders != null) {
+      goods.value = orders;
+    }
+  });
+}
+
 const goods = ref<Order[]>([]);
 
 const formatPrice = (price: number) => {

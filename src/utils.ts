@@ -34,3 +34,7 @@ export async function fetchA<T>(
 export const formatDate = (dateString: string | Date) => {
   return new Date(dateString).toLocaleString();
 };
+
+export const formatPrice = (price: number) => {
+  return (price / 100).toFixed(2);
+};

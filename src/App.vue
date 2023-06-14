@@ -13,6 +13,7 @@ const onClickLeft = () => history.back();
   <RouterView />
   <van-tabbar route>
     <van-tabbar-item replace to="/" icon="home-o">主页</van-tabbar-item>
+    <van-tabbar-item replace to="/search" icon="search">搜索</van-tabbar-item>
     <van-tabbar-item replace to="/cart" icon="cart-o">购物车</van-tabbar-item>
     <van-tabbar-item replace to="/user" icon="user-o">用户</van-tabbar-item>
   </van-tabbar>

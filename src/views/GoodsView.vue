@@ -10,11 +10,12 @@
       <van-cell>
         <template #title>
           <div class="goods-title">{{ goods.name }}</div>
-          <div class="goods-price">{{ formatPrice() }}</div>
+          <div class="goods-price">{{ "¥" + formatPrice(goods.price) }}</div>
         </template>
       </van-cell>
       <van-cell class="goods-express">
         <template #title>
+          <van-col span="10"> 库存：{{ goods.stock }} 件 </van-col>
           <van-col span="10"> 描述：{{ goods.description }} </van-col>
           <van-col span="14"> 规格：{{ goods.specification }} </van-col>
           <van-col span="14">
@@ -35,8 +36,13 @@
         @click="showToast('进入店铺~')"
       >
         <template #title>
-          <span class="van-cell-text">快门商城</span>
-          <van-tag class="goods-tag" type="danger">官方</van-tag>
+          <span class="van-cell-text">{{ goods.shopInfo.name }}</span>
+          <van-tag
+            v-if="goods.shopInfo.type == 'ADMIN'"
+            class="goods-tag"
+            type="danger"
+            >官方</van-tag
+          >
         </template>
       </van-cell>
       <van-cell title="会员中心" icon="user-o" is-link @click="onClickMember" />
@@ -49,12 +55,19 @@
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group" style="margin-bottom: 100px">
-      <van-cell
-        title="查看商品详情"
-        is-link
-        @click="showToast('查看商品详情~')"
-      />
+      <van-cell title="查看商品详情" is-link @click="showDetail = true" />
     </van-cell-group>
+
+    <van-popup
+      v-model:show="showDetail"
+      round
+      position="bottom"
+      style="height: 90%; padding-top: 4px"
+    >
+      <div style="padding: 20px">
+        <div v-html="goods.detail"></div>
+      </div>
+    </van-popup>
 
     <van-action-bar style="margin-bottom: 50px">
       <van-action-bar-icon icon="chat-o" @click="showToast('客服~')">
@@ -77,9 +90,11 @@
 import { ref } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
-import { showToast, showConfirmDialog } from "vant";
-import { fetchA, formatDate } from "@/utils";
+import { showToast } from "vant";
+import { fetchA, formatDate, formatPrice } from "@/utils";
 import type { Product } from "@/types";
+
+const showDetail = ref(false);
 
 const route = useRoute();
 fetchA<Product>(
@@ -100,11 +115,16 @@ const goods = ref<Product>({
   createDate: "",
   lastModifiedDate: "",
   picture: "",
+  shopInfo: {
+    id: 0,
+    name: "Loading",
+    email: "Loading",
+    type: "USER",
+    createDate: "",
+  },
+  stock: 0,
+  detail: "",
 });
-
-const formatPrice = () => {
-  return "¥" + (goods.value.price / 100).toFixed(2);
-};
 
 const onClickMember = () => {
   router.push("/user");
@@ -124,23 +144,10 @@ const onClickAddCart = () => {
   );
 };
 const onClickBuy = () => {
-  showConfirmDialog({
-    title: "确认下单",
-    message: "真的要下单吗？",
-  })
-    .then(() => {
-      fetchA(
-        "/api/order/submitOrder",
-        JSON.stringify({ id: goods.value.id })
-      ).then((r) => {
-        if (r != null) {
-          showToast("提交订单成功！");
-        }
-      });
-    })
-    .catch(() => {
-      // on cancel
-    });
+  router.push({
+    name: "submitOrder",
+    params: { ids: [goods.value.id] },
+  });
 };
 </script>
 

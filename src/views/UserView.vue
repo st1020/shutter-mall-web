@@ -15,21 +15,21 @@
       </template>
     </van-card>
     <van-row class="user-links">
-      <van-col span="6">
+      <van-col span="6" @click="router.push('/orders/SUBMIT')">
         <van-icon name="pending-payment" />
-        待付款
+        已下单
       </van-col>
       <van-col span="6">
-        <van-icon name="records" />
-        待接单
+        <van-icon name="records" @click="router.push('/orders/CONFIRM')" />
+        处理中
       </van-col>
       <van-col span="6">
-        <van-icon name="tosend" />
-        待发货
+        <van-icon name="failure" @click="router.push('/orders/REJECT')" />
+        已拒绝
       </van-col>
       <van-col span="6">
-        <van-icon name="logistics" />
-        已发货
+        <van-icon name="completed" @click="router.push('/orders/FINISH')" />
+        已完成
       </van-col>
     </van-row>
 
@@ -53,7 +53,7 @@
         icon="gold-coin-o"
         title="我的优惠券"
         is-link
-        @click="showToast('我的优惠券~')"
+        @click="onClickCoupon"
       />
       <van-cell
         icon="gift-o"
@@ -97,6 +97,10 @@ const logout = () => {
 
 const onClickOrders = () => {
   router.push("/orders");
+};
+
+const onClickCoupon = () => {
+  router.push("/coupons");
 };
 </script>
 

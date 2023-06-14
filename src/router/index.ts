@@ -53,10 +53,34 @@ const router = createRouter({
     },
     {
       name: "orders",
-      path: "/orders",
+      path: "/orders/:type?",
       component: () => import("@/views/OrdersView.vue"),
       meta: {
         title: "订单",
+      },
+    },
+    {
+      name: "search",
+      path: "/search",
+      component: () => import("@/views/SearchView.vue"),
+      meta: {
+        title: "搜索",
+      },
+    },
+    {
+      name: "coupons",
+      path: "/coupons",
+      component: () => import("@/views/CouponsView.vue"),
+      meta: {
+        title: "优惠劵",
+      },
+    },
+    {
+      name: "submitOrder",
+      path: "/submitOrder/:ids(\\d+)+",
+      component: () => import("@/views/SubmitOrder.vue"),
+      meta: {
+        title: "提交订单",
       },
     },
   ],

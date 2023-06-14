@@ -21,6 +21,9 @@ export interface Product {
   createDate: string;
   lastModifiedDate: string;
   picture: string;
+  shopInfo: User;
+  stock: number;
+  detail: string;
 }
 
 export interface Order {
