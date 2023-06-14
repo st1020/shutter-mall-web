@@ -1,10 +1,22 @@
 <template>
   <div>
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>物美价廉</van-swipe-item>
-      <van-swipe-item>新鲜美味</van-swipe-item>
-      <van-swipe-item>方便快捷</van-swipe-item>
-      <van-swipe-item>不知道写啥了</van-swipe-item>
+    <van-swipe :autoplay="3000" indicator-color="white">
+      <van-swipe-item>
+        <img
+          style="width: 360px; height: 160px"
+          src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg"
+        />
+      </van-swipe-item>
+      <van-swipe-item>
+        <img
+          style="width: 360px; height: 160px"
+          src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
+        />
+      </van-swipe-item>
+      <van-swipe-item class="text-swipe">物美价廉</van-swipe-item>
+      <van-swipe-item class="text-swipe">新鲜美味</van-swipe-item>
+      <van-swipe-item class="text-swipe">方便快捷</van-swipe-item>
+      <van-swipe-item class="text-swipe">不知道写啥了</van-swipe-item>
     </van-swipe>
     <div v-for="item in goods" :key="item.id">
       <van-card
@@ -42,10 +54,10 @@ const onClick = (product: Product) => {
 </script>
 
 <style>
-.my-swipe .van-swipe-item {
+.text-swipe {
   color: #fff;
   font-size: 20px;
-  line-height: 150px;
+  line-height: 160px;
   text-align: center;
   background-color: #39a9ed;
 }
