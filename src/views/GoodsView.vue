@@ -93,6 +93,9 @@ import { useRoute } from "vue-router";
 import { showToast } from "vant";
 import { fetchA, formatDate, formatPrice } from "@/utils";
 import type { Product } from "@/types";
+import { useViewHistoryStore } from "@/stores/viewHistory";
+
+const viewHistory = useViewHistoryStore();
 
 const showDetail = ref(false);
 
@@ -103,6 +106,7 @@ fetchA<Product>(
 ).then((response) => {
   if (response != null) {
     goods.value = response;
+    viewHistory.addViewHistory(response);
   }
 });
 

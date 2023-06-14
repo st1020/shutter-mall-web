@@ -107,6 +107,14 @@ const router = createRouter({
         title: "幸运抽奖",
       },
     },
+    {
+      name: "history",
+      path: "/history",
+      component: () => import("@/views/ViewHistoryView.vue"),
+      meta: {
+        title: "历史记录",
+      },
+    },
   ],
 });
 

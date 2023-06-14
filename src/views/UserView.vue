@@ -44,6 +44,12 @@
 
     <van-cell-group class="user-group">
       <van-cell
+        icon="clock-o"
+        title="浏览历史"
+        is-link
+        @click="router.push('/history')"
+      />
+      <van-cell
         icon="points"
         title="幸运抽奖"
         is-link
@@ -54,12 +60,6 @@
         title="我的优惠券"
         is-link
         @click="onClickCoupon"
-      />
-      <van-cell
-        icon="gift-o"
-        title="我收到的礼物"
-        is-link
-        @click="showToast('我收到的礼物~')"
       />
     </van-cell-group>
 
@@ -78,7 +78,6 @@
 import type { User } from "@/types";
 import { fetchA, formatDate } from "@/utils";
 import { ref } from "vue";
-import { showToast } from "vant";
 import router from "@/router";
 
 const user = ref<User>({
