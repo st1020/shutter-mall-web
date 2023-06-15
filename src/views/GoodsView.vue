@@ -50,7 +50,13 @@
         title="线下门店"
         icon="location-o"
         is-link
-        @click="showToast('线下门店~')"
+        @click="showPhysicalStore = true"
+      />
+      <van-cell
+        title="直播带货"
+        icon="gift-o"
+        is-link
+        @click="showVideo = true"
       />
     </van-cell-group>
 
@@ -67,6 +73,58 @@
       <div style="padding: 20px">
         <div v-html="goods.detail"></div>
       </div>
+    </van-popup>
+
+    <van-popup
+      v-model:show="showPhysicalStore"
+      round
+      position="bottom"
+      style="height: 88%; padding-top: 4px"
+    >
+      <h1 style="margin: 10px"><van-icon name="location-o" /> 线下门店</h1>
+      <PhysicalStore />
+      <div>
+        <div style="margin: 10px">
+          <van-tag type="primary" size="large">门店1</van-tag>
+          北京市朝阳区文三路 138 号东方通信大厦 7 楼 501 室
+        </div>
+        <div style="margin: 10px">
+          <van-tag type="primary" size="large">门店2</van-tag>
+          上海市浦东区莫干山路 50 号
+        </div>
+        <div style="margin: 10px">
+          <van-tag type="primary" size="large">门店3</van-tag>
+          重庆市九龙坡区江南大道 15 号
+        </div>
+      </div>
+    </van-popup>
+
+    <van-popup
+      v-model:show="showVideo"
+      round
+      position="bottom"
+      style="height: 80%; padding-top: 4px"
+    >
+      <h1 style="margin: 10px"><van-icon name="gift-o" /> 直播带货</h1>
+      <van-barrage v-model="barrageList">
+        <div
+          class="video"
+          style="width: 100%; height: 150px; background-color: black"
+        ></div>
+      </van-barrage>
+      <van-field
+        v-model="barrage"
+        center
+        clearable
+        label="弹幕"
+        placeholder="请文明发言"
+      >
+        <template #button>
+          <van-button size="small" type="primary" @click="addBarrage"
+            >发送</van-button
+          >
+        </template>
+      </van-field>
     </van-popup>
 
     <van-action-bar style="margin-bottom: 50px">
@@ -94,10 +152,13 @@ import { showToast } from "vant";
 import { fetchA, formatDate, formatPrice } from "@/utils";
 import type { Product } from "@/types";
 import { useViewHistoryStore } from "@/stores/viewHistory";
+import PhysicalStore from "@/components/PhysicalStore.vue";
 
 const viewHistory = useViewHistoryStore();
 
 const showDetail = ref(false);
+const showPhysicalStore = ref(false);
+const showVideo = ref(false);
 
 const route = useRoute();
 fetchA<Product>(
@@ -153,6 +214,35 @@ const onClickBuy = () => {
     params: { ids: [goods.value.id] },
   });
 };
+
+const defaultList = [
+  { id: 0, text: "真的好用" },
+  { id: 1, text: "敏感肌也可以用" },
+  { id: 2, text: "主播真好看" },
+  { id: 3, text: "孩子很爱吃" },
+  { id: 4, text: "已经买了100个" },
+  { id: 5, text: "关注主播谢谢喵" },
+  { id: 6, text: "666" },
+];
+
+const barrage = ref("");
+const barrageList = ref<{ id: number; text: string }[]>([]);
+const addBarrage = () => {
+  barrageList.value.push({
+    id: Math.random(),
+    text: barrage.value,
+  });
+  barrage.value = "";
+};
+window.setInterval(() => {
+  if (showVideo.value) {
+    let id = Math.random();
+    barrageList.value.push({
+      id: id,
+      text: defaultList[Math.floor(id * 1000) % 7].text,
+    });
+  }
+}, 1000);
 </script>
 
 <style lang="scss">
