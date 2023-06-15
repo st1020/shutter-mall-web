@@ -115,6 +115,14 @@ const router = createRouter({
         title: "历史记录",
       },
     },
+    {
+      name: "chat",
+      path: "/chat",
+      component: () => import("@/views/ChatView.vue"),
+      meta: {
+        title: "客服",
+      },
+    },
   ],
 });
 

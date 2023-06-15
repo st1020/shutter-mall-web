@@ -45,7 +45,12 @@
           >
         </template>
       </van-cell>
-      <van-cell title="会员中心" icon="user-o" is-link @click="onClickMember" />
+      <van-cell
+        title="会员中心"
+        icon="user-o"
+        is-link
+        @click="router.push('/user')"
+      />
       <van-cell
         title="线下门店"
         icon="location-o"
@@ -128,10 +133,10 @@
     </van-popup>
 
     <van-action-bar style="margin-bottom: 50px">
-      <van-action-bar-icon icon="chat-o" @click="showToast('客服~')">
+      <van-action-bar-icon icon="chat-o" @click="router.push('/chat')">
         客服
       </van-action-bar-icon>
-      <van-action-bar-icon icon="cart-o" @click="onClickCart">
+      <van-action-bar-icon icon="cart-o" @click="router.push('/cart')">
         购物车
       </van-action-bar-icon>
       <van-action-bar-button type="warning" @click="onClickAddCart">
@@ -191,22 +196,14 @@ const goods = ref<Product>({
   detail: "",
 });
 
-const onClickMember = () => {
-  router.push("/user");
-};
-
-const onClickCart = () => {
-  router.push("/cart");
-};
-
-const onClickAddCart = () => {
-  fetchA("/api/cart/addCart", JSON.stringify({ id: goods.value.id })).then(
-    (r) => {
-      if (r != null) {
-        showToast("添加购物车成功！");
-      }
-    }
+const onClickAddCart = async () => {
+  let r = await fetchA(
+    "/api/cart/addCart",
+    JSON.stringify({ id: goods.value.id })
   );
+  if (r != null) {
+    showToast("添加购物车成功！");
+  }
 };
 const onClickBuy = () => {
   router.push({
