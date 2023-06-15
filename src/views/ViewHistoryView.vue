@@ -9,7 +9,6 @@
       <van-card
         :title="item.name"
         :desc="item.description"
-        :num="1"
         :price="formatPrice(item.price)"
         :thumb="item.picture"
         @click="onClick(item)"

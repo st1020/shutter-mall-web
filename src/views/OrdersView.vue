@@ -5,7 +5,6 @@
     <div v-for="item in goods" :key="item.id">
       <van-card
         :title="item.product.name"
-        :num="1"
         :price="formatPrice(item.product.price)"
         :thumb="item.product.picture"
         @click="onClick(item)"
